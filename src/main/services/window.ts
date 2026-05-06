@@ -1,15 +1,17 @@
-import { BrowserWindow, shell, app } from 'electron'
-import path from 'path'
-import { updaterService } from '../updater'
+import { BrowserWindow, shell, app } from 'electron';
+import path from 'path';
+import { updaterService } from '../updater';
 
-const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL
-const RENDERER_DIST = path.join(__dirname, '../..', 'dist')
-const PRELOAD_PATH = path.join(__dirname, '../preload/index.js')
+const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL;
 
 export class WindowService {
-  private mainWindow: BrowserWindow | null = null
+  private mainWindow: BrowserWindow | null = null;
 
   createMainWindow(): BrowserWindow {
+    // In development, use Vite dev server URL
+    // In production, use the app path
+    const isDev = !!VITE_DEV_SERVER_URL;
+
     this.mainWindow = new BrowserWindow({
       width: 1200,
       height: 800,
@@ -17,61 +19,61 @@ export class WindowService {
       minHeight: 600,
       title: 'Electron Vue3 App',
       webPreferences: {
-        preload: PRELOAD_PATH,
+        preload: path.join(app.getAppPath(), 'dist-electron/preload/index.js'),
         contextIsolation: true,
         nodeIntegration: false,
         sandbox: true,
       },
-    })
+    });
 
     // Initialize updater service
-    updaterService.initialize(this.mainWindow)
+    updaterService.initialize(this.mainWindow);
 
     // Open external links in browser
     this.mainWindow.webContents.setWindowOpenHandler(({ url }) => {
       if (url.startsWith('https:')) {
-        shell.openExternal(url)
+        shell.openExternal(url);
       }
-      return { action: 'deny' }
-    })
+      return { action: 'deny' };
+    });
 
     // Load content
-    if (VITE_DEV_SERVER_URL) {
-      this.mainWindow.loadURL(VITE_DEV_SERVER_URL)
+    if (isDev) {
+      this.mainWindow.loadURL(VITE_DEV_SERVER_URL);
     } else {
-      this.mainWindow.loadFile(path.join(RENDERER_DIST, 'index.html'))
+      this.mainWindow.loadFile(path.join(app.getAppPath(), 'dist/index.html'));
     }
 
     this.mainWindow.on('closed', () => {
-      this.mainWindow = null
-    })
+      this.mainWindow = null;
+    });
 
-    return this.mainWindow
+    return this.mainWindow;
   }
 
   getMainWindow(): BrowserWindow | null {
-    return this.mainWindow
+    return this.mainWindow;
   }
 
   minimize(): void {
-    this.mainWindow?.minimize()
+    this.mainWindow?.minimize();
   }
 
   maximize(): void {
     if (this.mainWindow?.isMaximized()) {
-      this.mainWindow.unmaximize()
+      this.mainWindow.unmaximize();
     } else {
-      this.mainWindow?.maximize()
+      this.mainWindow?.maximize();
     }
   }
 
   close(): void {
-    this.mainWindow?.close()
+    this.mainWindow?.close();
   }
 
   isMaximized(): boolean {
-    return this.mainWindow?.isMaximized() ?? false
+    return this.mainWindow?.isMaximized() ?? false;
   }
 }
 
-export const windowService = new WindowService()
+export const windowService = new WindowService();

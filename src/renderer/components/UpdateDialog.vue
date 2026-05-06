@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from 'vue'
-import { useAppStore } from '../stores/appStore'
+import { computed, onMounted } from 'vue';
+import { useAppStore } from '../stores/appStore';
 
-const appStore = useAppStore()
+const appStore = useAppStore();
 
 const isVisible = computed(() => {
-  return ['available', 'downloading', 'downloaded', 'error'].includes(appStore.updateStatus)
-})
+  return ['available', 'downloading', 'downloaded', 'error'].includes(appStore.updateStatus);
+});
 
-const progressPercent = computed(() => Math.round(appStore.updateProgress * 100))
+const progressPercent = computed(() => Math.round(appStore.updateProgress * 100));
 
 onMounted(() => {
-  window.electron.update.onAvailable((info) => {
-    appStore.setUpdateAvailable(info as { version: string; releaseNotes?: string })
-  })
+  window.electron.update.onAvailable(info => {
+    appStore.setUpdateAvailable(info as { version: string; releaseNotes?: string });
+  });
   window.electron.update.onNotAvailable(() => {
-    appStore.setUpdateNotAvailable()
-  })
-  window.electron.update.onProgress((progress) => {
-    appStore.setUpdateProgress(progress)
-  })
+    appStore.setUpdateNotAvailable();
+  });
+  window.electron.update.onProgress(progress => {
+    appStore.setUpdateProgress(progress);
+  });
   window.electron.update.onDownloaded(() => {
-    appStore.setUpdateDownloaded()
-  })
-  window.electron.update.onError((error) => {
-    appStore.setUpdateError(error)
-  })
-})
+    appStore.setUpdateDownloaded();
+  });
+  window.electron.update.onError(error => {
+    appStore.setUpdateError(error);
+  });
+});
 
 async function handleInstall() {
-  await appStore.installUpdate()
+  await appStore.installUpdate();
 }
 
 async function handleLater() {
-  await appStore.cancelUpdate()
+  await appStore.cancelUpdate();
 }
 </script>
 
@@ -53,8 +53,8 @@ async function handleLater() {
           版本 {{ appStore.updateInfo?.version }} 可用
         </p>
         <button
-          @click="appStore.downloadUpdate()"
           class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium"
+          @click="appStore.downloadUpdate()"
         >
           下载更新
         </button>
@@ -76,14 +76,14 @@ async function handleLater() {
         <p class="text-sm text-gray-600 dark:text-gray-400">点击立即安装更新</p>
         <div class="flex gap-2">
           <button
-            @click="handleInstall"
             class="flex-1 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium"
+            @click="handleInstall"
           >
             立即安装
           </button>
           <button
-            @click="handleLater"
             class="flex-1 py-2 px-4 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md text-sm font-medium"
+            @click="handleLater"
           >
             稍后
           </button>
@@ -94,8 +94,8 @@ async function handleLater() {
         <h3 class="font-semibold text-red-600 dark:text-red-400">更新错误</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400">{{ appStore.updateError }}</p>
         <button
-          @click="appStore.checkForUpdate()"
           class="w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md text-sm font-medium"
+          @click="appStore.checkForUpdate()"
         >
           重试
         </button>

@@ -1,51 +1,51 @@
-import { app, BrowserWindow } from 'electron'
-import log from './logger'
-import { windowService } from './window'
-import { sqliteStore } from '../sqliteStore'
+import { app, BrowserWindow } from 'electron';
+import log from '../logger';
+import { windowService } from './window';
+import { sqliteStore } from '../sqliteStore';
 
 export class AppService {
   private initWindow(): void {
-    log.info('[App] Creating main window')
-    windowService.createMainWindow()
+    log.info('[App] Creating main window');
+    windowService.createMainWindow();
   }
 
   bootstrap(): void {
-    log.info('[App] Bootstrap started')
+    log.info('[App] Bootstrap started');
 
     // Single instance lock
     if (!app.requestSingleInstanceLock()) {
-      log.warn('[App] Another instance is running, quitting')
-      app.quit()
-      return
+      log.warn('[App] Another instance is running, quitting');
+      app.quit();
+      return;
     }
 
     app.on('second-instance', () => {
-      const mainWindow = windowService.getMainWindow()
+      const mainWindow = windowService.getMainWindow();
       if (mainWindow) {
-        if (mainWindow.isMinimized()) mainWindow.restore()
-        mainWindow.focus()
+        if (mainWindow.isMinimized()) mainWindow.restore();
+        mainWindow.focus();
       }
-    })
+    });
 
     app.whenReady().then(() => {
-      log.info('[App] App ready')
-      this.initWindow()
-      sqliteStore.initialize()
-    })
+      log.info('[App] App ready');
+      this.initWindow();
+      sqliteStore.initialize();
+    });
 
     app.on('window-all-closed', () => {
-      log.info('[App] All windows closed')
+      log.info('[App] All windows closed');
       if (process.platform !== 'darwin') {
-        app.quit()
+        app.quit();
       }
-    })
+    });
 
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) {
-        this.initWindow()
+        this.initWindow();
       }
-    })
+    });
   }
 }
 
-export const appService = new AppService()
+export const appService = new AppService();
