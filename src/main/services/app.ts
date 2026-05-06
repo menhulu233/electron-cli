@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 import log from './logger'
 import { windowService } from './window'
+import { sqliteStore } from '../sqliteStore'
 
 export class AppService {
   private initWindow(): void {
@@ -29,6 +30,7 @@ export class AppService {
     app.whenReady().then(() => {
       log.info('[App] App ready')
       this.initWindow()
+      sqliteStore.initialize()
     })
 
     app.on('window-all-closed', () => {
