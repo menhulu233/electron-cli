@@ -1,5 +1,6 @@
 import { BrowserWindow, shell, app } from 'electron'
 import path from 'path'
+import { updaterService } from '../updater'
 
 const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL
 const RENDERER_DIST = path.join(__dirname, '../..', 'dist')
@@ -22,6 +23,9 @@ export class WindowService {
         sandbox: true,
       },
     })
+
+    // Initialize updater service
+    updaterService.initialize(this.mainWindow)
 
     // Open external links in browser
     this.mainWindow.webContents.setWindowOpenHandler(({ url }) => {

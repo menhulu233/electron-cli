@@ -2,6 +2,7 @@ import { ipcMain, app, BrowserWindow } from 'electron'
 import { IpcChannel } from './channels'
 import { windowService } from '../services/window'
 import { sqliteStore } from '../sqliteStore'
+import { updaterService } from '../updater'
 import log from '../logger'
 
 export function registerIpcHandlers(): void {
@@ -48,6 +49,25 @@ export function registerIpcHandlers(): void {
 
   ipcMain.handle(IpcChannel.Store.GetAll, () => {
     return sqliteStore.getAll()
+  })
+
+  // Update handlers
+  ipcMain.handle(IpcChannel.Update.Check, async () => {
+    await updaterService.checkForUpdate()
+  })
+
+  ipcMain.handle(IpcChannel.Update.Download, async () => {
+    await updaterService.downloadUpdate()
+  })
+
+  ipcMain.handle(IpcChannel.Update.Install, async () => {
+    await updaterService.installUpdate()
+  })
+
+  ipcMain.handle(IpcChannel.Update.Cancel, async () => {
+    // electron-updater doesn't support cancellation directly
+    // but we can handle it by ignoring the next events
+    log.info('[Updater] Update cancelled by user')
   })
 
   log.info('[IPC] Handlers registered')
