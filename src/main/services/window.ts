@@ -1,6 +1,7 @@
 import { BrowserWindow, shell, app, Menu } from 'electron';
 import path from 'path';
 import { updaterService } from '../updater';
+import { IpcChannel } from '../../shared/constants/ipcChannels';
 
 const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL;
 
@@ -18,9 +19,10 @@ export class WindowService {
       minWidth: 800,
       minHeight: 600,
       title: 'Electron Vue3 App',
+      frame: false,
       autoHideMenuBar: true,
       webPreferences: {
-        preload: path.join(app.getAppPath(), 'dist-electron/preload/index.js'),
+        preload: path.join(app.getAppPath(), 'dist-electron/preload/preload.mjs'),
         contextIsolation: true,
         nodeIntegration: false,
         sandbox: true,
@@ -52,6 +54,14 @@ export class WindowService {
 
     this.mainWindow.on('closed', () => {
       this.mainWindow = null;
+    });
+
+    // Emit window state events to renderer
+    this.mainWindow.on('maximize', () => {
+      this.mainWindow?.webContents.send(IpcChannel.Window.OnMaximized);
+    });
+    this.mainWindow.on('unmaximize', () => {
+      this.mainWindow?.webContents.send(IpcChannel.Window.OnUnmaximized);
     });
 
     return this.mainWindow;

@@ -8,6 +8,8 @@ export const IpcChannel = {
     Maximize: 'window:maximize',
     Close: 'window:close',
     IsMaximized: 'window:isMaximized',
+    OnMaximized: 'window:onMaximized',
+    OnUnmaximized: 'window:onUnmaximized',
   },
   Store: {
     Get: 'store:get',
@@ -26,6 +28,6 @@ export const IpcChannel = {
     OnDownloaded: 'update:downloaded',
     OnError: 'update:error',
   },
-} as const
+} as const;
 
-export type IpcChannelType = typeof IpcChannel
+export type IpcChannelType = typeof IpcChannel;
