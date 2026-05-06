@@ -37,19 +37,8 @@ jobs:
       - name: Compile Electron
         run: npm run compile:electron
 
-      - name: Build distributable
-        run: npm run dist:${{ matrix.target }}
+      - name: Build & Publish
+        run: npm run dist:${{ matrix.target }} -- --publish=always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_ENV: production
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.target }}-build
-          path: |
-            release/*.exe
-            release/*.dmg
-            release/*.AppImage
-            release/*.deb
-          if-no-files-found: error

@@ -30,8 +30,10 @@ export class WindowService {
     // Remove application menu completely
     Menu.setApplicationMenu(null);
 
-    // Initialize updater service
-    updaterService.initialize(this.mainWindow);
+    // Initialize updater service (only in production)
+    if (!isDev) {
+      updaterService.initialize(this.mainWindow);
+    }
 
     // Open external links in browser
     this.mainWindow.webContents.setWindowOpenHandler(({ url }) => {

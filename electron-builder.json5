@@ -29,6 +29,10 @@
         "target": "dmg",
         "arch": ["x64", "arm64"],
       },
+      {
+        "target": "zip",
+        "arch": ["x64", "arm64"],
+      },
     ],
     "artifactName": "${productName}-${version}-${arch}.${ext}",
   },
@@ -43,7 +47,7 @@
   },
   "publish": {
     "provider": "github",
-    "owner": "YOUR_GITHUB_USERNAME",
-    "repo": "YOUR_REPO_NAME",
+    "owner": "menhulu233",
+    "repo": "electron-cli",
   },
 }
