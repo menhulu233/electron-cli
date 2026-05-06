@@ -38,7 +38,7 @@ jobs:
         run: npm run compile:electron
 
       - name: Build & Publish
-        run: npx electron-builder --${{ matrix.target }} --publish=always
+        run: npx electron-builder --${{ matrix.target }} --publish=onTag
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_ENV: production

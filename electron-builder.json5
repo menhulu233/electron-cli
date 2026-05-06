@@ -18,6 +18,7 @@
       },
     ],
     "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "publish": ["github"],
   },
   "nsis": {
     "oneClick": false,
@@ -35,6 +36,7 @@
       },
     ],
     "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "publish": ["github"],
   },
   "linux": {
     "target": [
@@ -44,6 +46,7 @@
       },
     ],
     "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "publish": ["github"],
   },
   "publish": {
     "provider": "github",
