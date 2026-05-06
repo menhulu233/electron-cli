@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useAppStore } from '../stores/appStore'
+import { useAppStore } from '../stores/appStore';
 
-const appStore = useAppStore()
+const appStore = useAppStore();
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const appStore = useAppStore()
       <div class="flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
         <span>{{ $t('app.version') }}: {{ appStore.version }}</span>
         <span>|</span>
-        <span>Platform: {{ appStore.platform }}</span>
+        <span>{{ $t('app.platform') }}: {{ appStore.platform }}</span>
       </div>
     </div>
   </div>

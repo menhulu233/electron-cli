@@ -2,6 +2,7 @@ export default {
   app: {
     title: 'Electron Vue3 App',
     version: 'Version',
+    platform: 'Platform',
   },
   window: {
     minimize: 'Minimize',
@@ -23,4 +24,4 @@ export default {
     welcome: 'Welcome to Enterprise Electron Template',
     description: 'Built with Vue 3 + Vite + TypeScript',
   },
-}
+};

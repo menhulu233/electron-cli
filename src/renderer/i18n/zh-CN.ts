@@ -2,6 +2,7 @@ export default {
   app: {
     title: 'Electron Vue3 应用',
     version: '版本',
+    platform: '平台',
   },
   window: {
     minimize: '最小化',
@@ -23,4 +24,4 @@ export default {
     welcome: '欢迎使用企业级 Electron 模板',
     description: '基于 Vue 3 + Vite + TypeScript 构建',
   },
-}
+};
