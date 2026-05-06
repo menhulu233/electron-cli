@@ -9,7 +9,11 @@
     "strict": true,
     "outDir": "dist-electron",
     "rootDir": ".",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["./src/shared/*"]
+    }
   },
   "include": ["src/main/**/*", "src/shared/**/*"]
 }
