@@ -6,7 +6,7 @@ export default {
       'always',
       ['feat', 'fix', 'docs', 'style', 'refactor', 'perf', 'test', 'build', 'ci', 'chore', 'revert'],
     ],
-    'subject-case': [2, 'never', ['sentence-case', 'start-case', 'pascal-case', 'constant-case', 'upper-case']],
+    'subject-case': [2, 'never', ['sentence-case', 'start-case', 'pascal-case', 'upper-case']],
     'header-max-length': [2, 'always', 72],
   },
 }

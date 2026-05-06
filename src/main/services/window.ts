@@ -1,4 +1,4 @@
-import { BrowserWindow, shell, app } from 'electron';
+import { BrowserWindow, shell, app, Menu } from 'electron';
 import path from 'path';
 import { updaterService } from '../updater';
 
@@ -18,6 +18,7 @@ export class WindowService {
       minWidth: 800,
       minHeight: 600,
       title: 'Electron Vue3 App',
+      autoHideMenuBar: true,
       webPreferences: {
         preload: path.join(app.getAppPath(), 'dist-electron/preload/index.js'),
         contextIsolation: true,
@@ -25,6 +26,9 @@ export class WindowService {
         sandbox: true,
       },
     });
+
+    // Remove application menu completely
+    Menu.setApplicationMenu(null);
 
     // Initialize updater service
     updaterService.initialize(this.mainWindow);
