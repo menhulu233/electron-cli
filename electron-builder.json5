@@ -48,9 +48,5 @@
     "artifactName": "${productName}-${version}-${arch}.${ext}",
     "publish": ["github"],
   },
-  "publish": {
-    "provider": "github",
-    "owner": "menhulu233",
-    "repo": "electron-cli",
-  },
+  "publish": null,
 }
